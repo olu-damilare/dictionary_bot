@@ -78,7 +78,7 @@
 # dispatcher.add_handler(CommandHandler("start", start))
 # dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
 # updater.start_webhook(listen="0.0.0.0",
-#                       port=int(PORT),
+#                       port=PORT,
 #                       url_path=telegram_bot_token,
 #                       webhook_url='https://dictionary-bot1.herokuapp.com/' + telegram_bot_token
 #                       )
@@ -86,6 +86,7 @@
 #
 # if __name__ == "__main__":
 #     app.run(debug=True, host='0.0.0.0', port=PORT)
+import os
 
 import telegram
 from telegram.ext import Updater, MessageHandler, Filters
@@ -168,4 +169,8 @@ dispatcher.add_handler(CommandHandler("start", start))
 # invoke the get_word_info function when the user sends a message
 # that is not a command.
 dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
-updater.start_polling()
+updater.start_webhook(listen="0.0.0.0",
+                      port=int(os.environ.get('PORT', 5000)),
+                      url_path=telegram_bot_token,
+                      webhook_url='https://dictionary-bot1.herokuapp.com/' + telegram_bot_token
+                      )
