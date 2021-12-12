@@ -18,7 +18,6 @@ def get_info(word):
         return error_response
 
     data = response.json()[0]
-
     return data
 
 
