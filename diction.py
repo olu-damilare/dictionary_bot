@@ -3,7 +3,7 @@ import requests
 from flask import Flask
 
 app = Flask(__name__)
-PORT = 5000
+PORT = 80
 
 
 @app.route('/<word>')
