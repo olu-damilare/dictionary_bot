@@ -1,11 +1,14 @@
-import telegram
+import os
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
-from diction import get_info, PORT
+from diction import get_info
+from flask import Flask
+
 
 telegram_bot_token = '5014085429:AAFbSIo_nILY7Xs2_BgU7xurLu42Tmjn8KI'
-
 updater = Updater(token=telegram_bot_token, use_context=True)
 dispatcher = updater.dispatcher
+PORT = 80
+app = Flask(__name__)
 
 
 # set up the introductory statement for the bot when the /start command is invoked
@@ -69,7 +72,6 @@ def get_word_info(update, context):
     # format the data into a string
     message = f"Word: {word}\n\nOrigin: {origin}\n{meanings}"
 
-
     update.message.reply_text(message)
 
 
@@ -77,5 +79,11 @@ dispatcher.add_handler(CommandHandler("start", start))
 dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
 updater.start_webhook(listen="0.0.0.0",
                       port=int(PORT),
-                      url_path=telegram_bot_token)
-updater.bot.setWebhook('https://dictionary-bot1.herokuapp.com/' + telegram_bot_token)
+                      url_path=telegram_bot_token,
+                      webhook_url='https://dictionary-bot1.herokuapp.com/' + telegram_bot_token
+                      )
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', PORT))
+    app.run(debug=True, host='0.0.0.0', port=port)

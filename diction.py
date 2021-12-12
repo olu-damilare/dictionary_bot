@@ -1,9 +1,7 @@
-import os
 import requests
 from flask import Flask
 
 app = Flask(__name__)
-PORT = 80
 
 
 @app.route('/<word>')
@@ -24,9 +22,5 @@ def get_info(word):
     return data
 
 
-get_info("food")
 
 
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', PORT))
-    app.run(debug=True, host='0.0.0.0', port=port)
