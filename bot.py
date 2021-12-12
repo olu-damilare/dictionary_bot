@@ -7,7 +7,7 @@ from flask import Flask
 telegram_bot_token = '5014085429:AAFbSIo_nILY7Xs2_BgU7xurLu42Tmjn8KI'
 updater = Updater(token=telegram_bot_token, use_context=True)
 dispatcher = updater.dispatcher
-PORT = 80
+PORT = int(os.environ.get('PORT', 5000))
 app = Flask(__name__)
 
 
@@ -85,5 +85,4 @@ updater.start_webhook(listen="0.0.0.0",
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', PORT))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=PORT)
